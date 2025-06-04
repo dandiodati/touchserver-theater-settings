@@ -1,0 +1,1831 @@
+<?xml version="1.0"?>
+<touchControl platform="win">
+  <locations>
+    <location name="Default iPad" />
+    <location name="Default iPhone" />
+  </locations>
+  <activities>
+    <activity name="Scoreboard" />
+    <activity name="Chat" />
+    <activity name="Unlock" />
+    <activity name="DirecTV Remote" />
+  </activities>
+  <devices>
+    <device name="Scoreboard">
+      <buttons>
+        <button name="Cancel" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="0" text="Exit">
+          <code />
+          <script>if (_text=='Cancel') {
+  _setEnabled('LookingLabel',false);
+  _setEnabled('InitGroup',true);
+  _text='Exit';
+} else {
+  return '[#]Back';
+}</script>
+        </button>
+        <button name="InitGroup" type="group" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="1" text="">
+          <code />
+        </button>
+        <button name="RequiresBTWiFi" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="2" text="">
+          <code>This activity requires Bluetooth or WiFi to connect with other nearby devices. Stand-alone use requires no connectivity.</code>
+        </button>
+        <button name="Clock" type="script#" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="3" text="00:00">
+          <code />
+          <script>if (!_local.clock) {
+  return;
+}
+_local.seconds++;
+if (_local.seconds==60) {
+  _local.minutes++;
+  _local.seconds=0;
+}
+var minutes=_local.minutes.toString();
+if (minutes.length&lt;2){
+  minutes='0'+minutes;
+}
+var seconds=_local.seconds.toString();
+if (seconds.length&lt;2){
+  seconds='0'+seconds;
+}
+_setText('ClockLabel',minutes+':'+seconds);</script>
+        </button>
+        <button name="CurrentClock" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="4" text="">
+          <code />
+          <script>var colors = '';
+var teams = '';
+var score = '';
+var set = '';
+var clock = 'clock:'+_getText('ClockLabel').replace(/:/g,'^')+':'+_local.clock.toString();
+var feedbackParts = _local.feedback.split('|');
+for (part in feedbackParts) {
+  if (feedbackParts[part].indexOf('colors')==0) {
+    colors = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('teams')==0) {
+    teams = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('score')==0) {
+    score = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('set')==0) {
+    set = feedbackParts[part];
+  }
+}
+_local.feedback = colors+'|'+teams+'|'+score+'|'+set+'|'+clock;
+return '[#]UpdateSender[#]ScoreSender';</script>
+        </button>
+        <button name="ClockToggle" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="5" text="">
+          <code />
+          <script>_local.clock=!_local.clock;
+if (!_local.clock) {
+  _setTextColor('ClockLabel','#808080');
+  return '[#]{&lt;}Clock[#]CurrentClock';
+}else{
+  _setTextColor('ClockLabel','White');
+  return '[#]{&gt;}Clock[#]CurrentClock';
+}</script>
+        </button>
+        <button name="IAmLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="6" text="">
+          <code>I am a...</code>
+        </button>
+        <button name="InitTitleLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="7" text="">
+          <code>TouchControl\nScoreboard</code>
+        </button>
+        <button name="AlphaInit" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="8" text="">
+          <code />
+          <script>_animateAlpha('InitGroup',1);
+_animateAlpha('Cancel',1);</script>
+        </button>
+        <button name="CurrentScore" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="9" text="">
+          <code />
+          <script>var colors = '';
+var teams = '';
+var score = 'score:'+_local.homeScore+':'+_local.visitScore;
+var set = '';
+var clock = '';
+var feedbackParts = _local.feedback.split('|');
+for (part in feedbackParts) {
+  if (feedbackParts[part].indexOf('colors')==0) {
+    colors = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('teams')==0) {
+    teams = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('set')==0) {
+    set = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('clock')==0) {
+    clock = feedbackParts[part];
+  }
+}
+_local.feedback = colors+'|'+teams+'|'+score+'|'+set+'|'+clock;
+return '[#]UpdateSender[#]ScoreSender';</script>
+        </button>
+        <button name="SwapPad" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="10" text="">
+          <code />
+          <script>var left_scorePosition=0;
+var left_teamTextPosition=0;
+var left_teamFieldPosition=0;
+var left_textColorPosition=0;
+var right_scorePosition=0;
+var right_teamTextPosition=0;
+var right_teamFieldPosition=0;
+var right_textColorPosition=0;
+
+if (orientation=='landscape'){
+  left_scorePosition=0;
+  left_teamTextPosition=52;
+  left_teamFieldPosition=122;
+  left_textColorPosition=255;
+  right_scorePosition=514;
+  right_teamTextPosition=566;
+  right_teamFieldPosition=636;
+  right_textColorPosition=769;
+} else {
+  left_scorePosition=0;
+  left_teamTextPosition=52;
+  left_teamFieldPosition=122;
+  left_textColorPosition=255;
+  right_scorePosition=514;
+  right_teamTextPosition=566;
+  right_teamFieldPosition=636;
+  right_textColorPosition=769;
+}
+
+if (_getLeft('HomeLabel')==left_scorePosition) {
+  _animateLeft('HomeLabel',right_scorePosition);
+  _animateLeft('HomePad',right_scorePosition);
+  _animateLeft('VisitLabel',left_scorePosition);
+  _animateLeft('VisitPad',left_scorePosition);
+  _animateLeft('SetHomeColor',right_teamTextPosition);
+  _animateLeft('HomeTextLabel',right_teamTextPosition);
+  _animateLeft('SetVisitColor',left_teamTextPosition);
+  _animateLeft('VisitTextLabel',left_teamTextPosition);
+  _animateLeft('HomeColor',right_scorePosition);
+  _animateLeft('VisitColor',left_scorePosition);
+  _animateLeft('HomeTextColor',right_textColorPosition);
+  _animateLeft('VisitTextColor',left_textColorPosition);
+  _animateLeft('HomeTeam',right_teamFieldPosition);
+  _animateLeft('VisitTeam',left_teamFieldPosition);
+} else {
+  _animateLeft('HomeLabel',left_scorePosition);
+  _animateLeft('HomePad',left_scorePosition);
+  _animateLeft('VisitLabel',right_scorePosition);
+  _animateLeft('VisitPad',right_scorePosition);
+  _animateLeft('SetHomeColor',left_teamTextPosition);
+  _animateLeft('HomeTextLabel',left_teamTextPosition);
+  _animateLeft('SetVisitColor',right_teamTextPosition);
+  _animateLeft('VisitTextLabel',right_teamTextPosition);
+  _animateLeft('HomeColor',left_scorePosition);
+  _animateLeft('VisitColor',right_scorePosition);
+  _animateLeft('HomeTextColor',left_textColorPosition);
+  _animateLeft('VisitTextColor',right_textColorPosition);
+  _animateLeft('HomeTeam',left_teamFieldPosition);
+  _animateLeft('VisitTeam',right_teamFieldPosition);
+}</script>
+          <prescript />
+        </button>
+        <button name="UpdateSender" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="11" text="">
+          <code />
+          <script>if (_local.feedback.indexOf('alert')==0){
+  //noop
+} else if (_local.feedback=='swap'){
+  if (_iOSDevice=='iPad'){
+    return '[#]SwapPad';
+  } else {
+    return '[#]SwapPhone';
+  }
+} else if (_local.feedback=='back'){
+  return '[#]Back';
+} else {
+  var feedbackParts = _local.feedback.split('|');
+  for (part in feedbackParts) {
+    if (feedbackParts[part].indexOf(':')&gt;0) {
+      if (feedbackParts[part].indexOf('colors')==0) {
+        _setBackgroundColor('HomeLabel',feedbackParts[part].split(':')[1]);
+        _setBackgroundColor('VisitLabel',feedbackParts[part].split(':')[2]);
+        _setTextColor('HomeLabel',feedbackParts[part].split(':')[3]);
+        _setTextColor('VisitLabel',feedbackParts[part].split(':')[4]);
+      } else if (feedbackParts[part].indexOf('teams')==0) {
+        _setText('HomeTextLabel', feedbackParts[part].split(':')[1]);
+        _setText('VisitTextLabel', feedbackParts[part].split(':')[2]);
+      } else if (feedbackParts[part].indexOf('score')==0) {
+        _setText('HomeLabel', feedbackParts[part].split(':')[1]);
+        _setText('VisitLabel', feedbackParts[part].split(':')[2]);
+      } else if (feedbackParts[part].indexOf('set')==0) {
+        _setText('SetLabel', feedbackParts[part].split(':')[1]);
+      }
+    }
+  }
+}</script>
+        </button>
+        <button name="CurrentTeams" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="12" text="">
+          <code />
+          <script>var colors = '';
+var teams = 'teams:'+_local.homeTeam+':'+_local.visitTeam;
+var score = '';
+var set = '';
+var clock = '';
+var feedbackParts = _local.feedback.split('|');
+for (part in feedbackParts) {
+  if (feedbackParts[part].indexOf('colors')==0) {
+    colors = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('score')==0) {
+    score = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('set')==0) {
+    set = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('clock')==0) {
+    clock = feedbackParts[part];
+  }
+}
+_local.feedback = colors+'|'+teams+'|'+score+'|'+set+'|'+clock;
+return '[#]UpdateSender[#]ScoreSender';</script>
+        </button>
+        <button name="CurrentSet" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="13" text="">
+          <code />
+          <script>var colors = '';
+var teams = '';
+var score = '';
+var set = 'set:'+_local.currentSet;
+var clock = '';
+var feedbackParts = _local.feedback.split('|');
+for (part in feedbackParts) {
+  if (feedbackParts[part].indexOf('colors')==0) {
+    colors = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('teams')==0) {
+    teams = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('score')==0) {
+    score = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('clock')==0) {
+    clock = feedbackParts[part];
+  }
+}
+_local.feedback = colors+'|'+teams+'|'+score+'|'+set+'|'+clock;
+return '[#]UpdateSender[#]ScoreSender';</script>
+        </button>
+        <button name="CurrentColors" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="14" text="">
+          <code />
+          <script>var colors = 'colors:'+_local.homeColor+':'+_local.visitColor+':'+_local.homeTextColor+':'+_local.visitTextColor;
+var teams = '';
+var score = '';
+var set = '';
+var clock = '';
+var feedbackParts = _local.feedback.split('|');
+for (part in feedbackParts) {
+  if (feedbackParts[part].indexOf('teams')==0) {
+    teams = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('score')==0) {
+    score = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('set')==0) {
+    set = feedbackParts[part];
+  } else if (feedbackParts[part].indexOf('clock')==0) {
+    clock = feedbackParts[part];
+  }
+}
+_local.feedback = colors+'|'+teams+'|'+score+'|'+set+'|'+clock;
+return '[#]UpdateSender[#]ScoreSender';</script>
+        </button>
+        <button name="HideKeyboard" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="15" text="">
+          <code>{keyboard hide}</code>
+        </button>
+        <button name="UpdateReceiver" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="16" text="">
+          <code />
+          <script>_setEnabled('LookingLabel',false);
+_setEnabled('Cancel',false);
+if (_local.feedback.indexOf('alert')==0){
+  alert(_local.feedback.split(':')[1]);
+} else if (_local.feedback=='swap'){
+  if (_iOSDevice=='iPad'){
+    return '[#]SwapPad';
+  } else {
+    return '[#]SwapPhone';
+  }
+} else if (_local.feedback=='back'){
+  return '[#]Back';
+} else {
+  var feedbackParts = _local.feedback.split('|');
+  for (part in feedbackParts) {
+    if (feedbackParts[part].indexOf(':')&gt;0) {
+      if (feedbackParts[part].indexOf('colors')==0) {
+        _setBackgroundColor('HomeLabel',feedbackParts[part].split(':')[1]);
+        _setBackgroundColor('VisitLabel',feedbackParts[part].split(':')[2]);
+        _setTextColor('HomeLabel',feedbackParts[part].split(':')[3]);
+        _setTextColor('VisitLabel',feedbackParts[part].split(':')[4]);
+      } else if (feedbackParts[part].indexOf('teams')==0) {
+        _setText('HomeTextLabel', feedbackParts[part].split(':')[1]);
+        _setText('VisitTextLabel', feedbackParts[part].split(':')[2]);
+      } else if (feedbackParts[part].indexOf('score')==0) {
+        _setText('HomeLabel', feedbackParts[part].split(':')[1]);
+        _setText('VisitLabel', feedbackParts[part].split(':')[2]);
+      } else if (feedbackParts[part].indexOf('set')==0) {
+        _setText('SetLabel', feedbackParts[part].split(':')[1]);
+      } else if (feedbackParts[part].indexOf('clock')==0) {
+        var theClock=feedbackParts[part].split(':')[1];
+        theClock=theClock.replace(/\^/g,':');
+        _setText('ClockLabel', theClock);
+        _local.minutes=parseInt(theClock.split(':')[0]);
+        _local.seconds=parseInt(theClock.split(':')[1]);
+        if (theClock == '00:00') {
+          _setTextColor('ClockLabel','#808080');
+        } else {
+          _setTextColor('ClockLabel','White');
+        }
+        if (feedbackParts[part].split(':')[2]=='true') {
+          _local.clock=true;
+          return '[#]{&gt;}Clock';
+        }else{
+          _local.clock=false;
+          _setTextColor('ClockLabel','#808080');
+          return '[#]{&lt;}Clock';
+        }
+      }
+    }
+  }
+}</script>
+        </button>
+        <button name="Back" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="[go back]" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="17" text="">
+          <code />
+        </button>
+        <button name="ScoreSender" type="et" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="Scoreboard Sender" remotePort="" touchTip="" group="Scoreboard^InitGroup" template="0" index="18" text="">
+          <code>%feedback%\//</code>
+          <properties>MPAutoAccept[~~]true[~]MPSendDataMode[~~]Reliable</properties>
+          <prescript />
+        </button>
+        <button name="UpdateConnectedPeers" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="19" text="">
+          <code />
+          <script>_setText('ConnectedPeers',Array(_mpConnectedPeers.length + 1).join('•'));</script>
+        </button>
+        <button name="RefreshTimer" type="script#" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="600.00" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="20" text="">
+          <code />
+          <script>return '[#]Refresh';</script>
+        </button>
+        <button name="ScoreReceiver" type="et&lt;" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="Scoreboard Receiver" remotePort="" touchTip="" group="Scoreboard^InitGroup" template="0" index="21" text="">
+          <code>\//</code>
+          <properties>MPConnectScript[~~]_setEnabled('MainGroup',true);_setEnabled('LookingLabel',false);[~]MPDisconnectScript[~~]_setEnabled('MainGroup',false);_setEnabled('LookingLabel',true);_setEnabled('Cancel',true);</properties>
+          <script>_local.feedback=_feedback;
+return '[#]UpdateReceiver';</script>
+        </button>
+        <button name="Init" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="22" text="">
+          <code />
+          <script>_local.tcOrientationPrep=ScoreboardOrientation;
+_local.minutes=0;
+_local.seconds=0;
+_local.clock=false;
+_local.feedback='||||';
+_local.homeScore=0;
+_local.visitScore=0;
+_local.homeTeam='Home';
+_local.visitTeam='Visitor';
+_local.currentSet=1;
+_local.homeColor='Black';
+_local.homeTextColor='White';
+_local.homeColorName = 'Black';
+_local.homeTextColorName = 'White';
+_local.visitColor='Black';
+_local.visitTextColor='White';
+_local.visitColorName = 'Black';
+_local.visitTextColorName = 'White';
+_local.padTextSizeLarge=500;
+_local.padTextSizeSmall=400;
+_local.phoneTextSize=200;
+_setBackgroundColor('SetLabel','#303030');
+_setBackgroundColor('ClockLabel','#303030');
+_setAlpha('ClockLabel',.9);
+_setText('ClockLabel','00:00');
+_setTextColor('ClockLabel','#808080');
+_setAlpha('SetLabel',.9);
+_setBackgroundColor('ButtonBackground','#303030');
+_setAlpha('ButtonBackground',.7);
+_setTextSize('HomeLabel',(_iOSDevice=='iPad'?_local.padTextSizeLarge:_local.phoneTextSize));
+_setTextSize('VisitLabel',(_iOSDevice=='iPad'?_local.padTextSizeLarge:_local.phoneTextSize));
+if(_iOSDevice=='iPad'){
+  _setTextSize('SetLabel',60);
+  _setTextSize('RequiresBTWiFi',17);
+}else {
+  _setTextSize('SetLabel',40);
+}
+/*
+_setIcon('GoBack','ScoreboardIcons/icon_left.png');
+_setIcon('Reset','ScoreboardIcons/icon_back.png');
+_setIcon('Refresh','ScoreboardIcons/icon_refresh.png');
+_setIcon('SendMessage','ScoreboardIcons/icon_source.png');
+_setIcon('ThrowSwap','ScoreboardIcons/icon_shuffle.png');
+*/
+_setBackgroundColor('HomeLabel',_local.homeColor);
+_setBackgroundColor('VisitLabel',_local.VisitColor);
+_setTextFont('HomeLabel','DINCondensed-Bold');
+_setTextFont('VisitLabel','DINCondensed-Bold');
+_setTextFont('SetLabel','DINCondensed-Bold');
+_setText('MessageText','');
+_setTextSize('ConnectedPeers',40);
+_setBackgroundColor('Scorekeeper','#303030');
+_setBackgroundColor('Spectator','#303030');
+_setBackgroundColor('Cancel','#303030');
+_setAlpha('InitGroup',0);
+_setAlpha('Cancel',0);
+_setEnabled('InitGroup',true);
+if (!_fullScreen) {
+  return '[#]GoFullScreen';
+}
+_setEnabled('Cancel',true);
+return '[#]AlphaInit';
+
+function ScoreboardOrientation(orientation) {
+  if (orientation=='landscape') {
+    _local.padTextSize=_local.padTextSizeLarge;
+  } else {
+    _local.padTextSize=_local.padTextSizeSmall;
+  }
+  _setTextSize('HomeLabel',(_iOSDevice=='iPad'?_local.padTextSize:200));
+  _setTextSize('VisitLabel',(_iOSDevice=='iPad'?_local.padTextSize:200));
+}</script>
+        </button>
+        <button name="Spectator" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="23" text="">
+          <code />
+          <script>_setEnabled('InitGroup',false);
+_setEnabled('TapToSetLabel',false);
+_setEnabled('SetHomeColor',false);
+_setEnabled('SetVisitColor',false);
+_setEnabled('SendMessage',false);
+_setEnabled('ThrowSwap',false);
+_setEnabled('Reset',false);
+_setEnabled('Refresh',false);
+_setEnabled('SetPad',false);
+_setEnabled('HomePad',false);
+_setEnabled('VisitPad',false);
+_setEnabled('GoBack',false);
+_setEnabled('MainGroup',false);
+_setEnabled('LookingLabel',true);
+_setEnabled('ButtonBackground',false);
+_setEnabled('ClockPad',false);
+_setText('Cancel','Cancel');
+_setEnabled('Cancel',true);
+return '[#]ScoreReceiver';</script>
+        </button>
+        <button name="Scorekeeper" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="24" text="">
+          <code />
+          <script>_setEnabled('InitGroup',false);
+_setEnabled('MainGroup',true);
+_setEnabled('Cancel',false);
+
+_setEnabled('TapToSetLabel',true);
+_setEnabled('SetHomeColor',true);
+_setEnabled('SetVisitColor',true);
+_setEnabled('SendMessage',true);
+_setEnabled('ThrowSwap',true);
+_setEnabled('Reset',true);
+_setEnabled('Refresh',true);
+_setEnabled('SetPad',true);
+_setEnabled('HomePad',true);
+_setEnabled('VisitPad',true);
+_setEnabled('GoBack',true);
+_setEnabled('LookingLabel',false);
+_setEnabled('ButtonBackground',false);
+_setEnabled('ClockPad',true);
+
+var answer=confirm("Press OK to automatically accept all incoming spectator requests, or Cancel to be prompted for each request.");
+if (answer){
+  _setProperty('ScoreSender','MPAutoAccept','true');
+} else {
+  _setProperty('ScoreSender','MPAutoAccept','false');
+}
+
+return '[#]RefreshTimer';</script>
+        </button>
+        <button name="GoFullScreen" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^InitGroup" template="0" index="25" text="Go Full Screen">
+          <code>{fullscreen:on}</code>
+          <prescript />
+          <postscript />
+        </button>
+        <button name="LookingLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="marquee" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="26" text="">
+          <code>Looking for a scorekeeper...</code>
+        </button>
+        <button name="MainGroup" type="group" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="27" text="">
+          <code />
+        </button>
+        <button name="HomeTextColor" type="spin" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="freeText" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="28" text="">
+          <code>Black|White|Blue|Red|Navy|Green|Purple|Orange|Yellow|Gold|Silver|Gray|Teal|Royal Blue|Maroon|:NO</code>
+          <postscript>if (_selectedItem=='Black'){
+  _local.homeTextColor='Black';
+} else if (_selectedItem=='White'){
+  _local.homeTextColor='White';
+} else if (_selectedItem=='Red'){
+  _local.homeTextColor='Red';
+} else if (_selectedItem=='Navy'){
+  _local.homeTextColor='#000080';
+} else if (_selectedItem=='Blue'){
+  _local.homeTextColor='Blue';
+} else if (_selectedItem=='Green'){
+  _local.homeTextColor='Green';
+} else if (_selectedItem=='Yellow'){
+  _local.homeTextColor='#FFFF00';
+} else if (_selectedItem=='Purple'){
+  _local.homeTextColor='#800080';
+} else if (_selectedItem=='Orange'){
+  _local.homeTextColor='#FC6100';
+} else if (_selectedItem=='Gold'){
+  _local.homeTextColor='#FFD700';
+} else if (_selectedItem=='Silver'){
+  _local.homeTextColor='#C0C0C0';
+} else if (_selectedItem=='Gray'){
+  _local.homeTextColor='#808080';
+} else if (_selectedItem=='Teal'){
+  _local.homeTextColor='#008080';
+} else if (_selectedItem=='Royal Blue'){
+  _local.homeTextColor='#4169E1';
+} else if (_selectedItem=='Maroon'){
+  _local.homeTextColor='#800000';
+}
+_local.homeTextColorName=_selectedItem;
+return '[#]CurrentColors';</postscript>
+        </button>
+        <button name="HomeColor" type="spin" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="freeText" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="29" text="">
+          <code>Black|White|Blue|Red|Navy|Green|Purple|Orange|Yellow|Gold|Silver|Gray|Teal|Royal Blue|Maroon|:NO</code>
+          <postscript>if (_selectedItem=='Black'){
+  _local.homeColor='Black';
+} else if (_selectedItem=='White'){
+  _local.homeColor='White';
+} else if (_selectedItem=='Red'){
+  _local.homeColor='Red';
+} else if (_selectedItem=='Navy'){
+  _local.homeColor='#000080';
+} else if (_selectedItem=='Blue'){
+  _local.homeColor='Blue';
+} else if (_selectedItem=='Green'){
+  _local.homeColor='Green';
+} else if (_selectedItem=='Yellow'){
+  _local.homeColor='#FFFF00';
+} else if (_selectedItem=='Purple'){
+  _local.homeColor='#800080';
+} else if (_selectedItem=='Orange'){
+  _local.homeColor='#FC6100';
+} else if (_selectedItem=='Gold'){
+  _local.homeColor='#FFD700';
+} else if (_selectedItem=='Silver'){
+  _local.homeColor='#C0C0C0';
+} else if (_selectedItem=='Gray'){
+  _local.homeColor='#808080';
+} else if (_selectedItem=='Teal'){
+  _local.homeColor='#008080';
+} else if (_selectedItem=='Royal Blue'){
+  _local.homeColor='#4169E1';
+} else if (_selectedItem=='Maroon'){
+  _local.homeColor='#800000';
+}
+_local.homeColorName=_selectedItem;
+return '[#]CurrentColors';</postscript>
+        </button>
+        <button name="VisitTextColor" type="spin" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="freeText" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="30" text="">
+          <code>Black|White|Blue|Red|Navy|Green|Purple|Orange|Yellow|Gold|Silver|Gray|Teal|Royal Blue|Maroon|:NO</code>
+          <postscript>if (_selectedItem=='Black'){
+  _local.visitTextColor='Black';
+} else if (_selectedItem=='White'){
+  _local.visitTextColor='White';
+} else if (_selectedItem=='Red'){
+  _local.visitTextColor='Red';
+} else if (_selectedItem=='Navy'){
+  _local.visitTextColor='#000080';
+} else if (_selectedItem=='Blue'){
+  _local.visitTextColor='Blue';
+} else if (_selectedItem=='Green'){
+  _local.visitTextColor='Green';
+} else if (_selectedItem=='Yellow'){
+  _local.visitTextColor='#FFFF00';
+} else if (_selectedItem=='Purple'){
+  _local.visitTextColor='#800080';
+} else if (_selectedItem=='Orange'){
+  _local.visitTextColor='#FC6100';
+} else if (_selectedItem=='Gold'){
+  _local.visitTextColor='#FFD700';
+} else if (_selectedItem=='Silver'){
+  _local.visitTextColor='#C0C0C0';
+} else if (_selectedItem=='Gray'){
+  _local.visitTextColor='#808080';
+} else if (_selectedItem=='Teal'){
+  _local.visitTextColor='#008080';
+} else if (_selectedItem=='Royal Blue'){
+  _local.visitTextColor='#4169E1';
+} else if (_selectedItem=='Maroon'){
+  _local.visitTextColor='#800000';
+}
+_local.visitTextColorName=_selectedItem;
+return '[#]CurrentColors';</postscript>
+        </button>
+        <button name="VisitColor" type="spin" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="freeText" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="31" text="">
+          <code>Black|White|Blue|Red|Navy|Green|Purple|Orange|Yellow|Gold|Silver|Gray|Teal|Royal Blue|Maroon|:NO</code>
+          <postscript>if (_selectedItem=='Black'){
+  _local.visitColor='Black';
+} else if (_selectedItem=='White'){
+  _local.visitColor='White';
+} else if (_selectedItem=='Red'){
+  _local.visitColor='Red';
+} else if (_selectedItem=='Navy'){
+  _local.visitColor='#000080';
+} else if (_selectedItem=='Blue'){
+  _local.visitColor='Blue';
+} else if (_selectedItem=='Green'){
+  _local.visitColor='Green';
+} else if (_selectedItem=='Yellow'){
+  _local.visitColor='#FFFF00';
+} else if (_selectedItem=='Purple'){
+  _local.visitColor='#800080';
+} else if (_selectedItem=='Orange'){
+  _local.visitColor='#FC6100';
+} else if (_selectedItem=='Gold'){
+  _local.visitColor='#FFD700';
+} else if (_selectedItem=='Silver'){
+  _local.visitColor='#C0C0C0';
+} else if (_selectedItem=='Gray'){
+  _local.visitColor='#808080';
+} else if (_selectedItem=='Teal'){
+  _local.visitColor='#008080';
+} else if (_selectedItem=='Royal Blue'){
+  _local.visitColor='#4169E1';
+} else if (_selectedItem=='Maroon'){
+  _local.visitColor='#800000';
+}
+_local.visitColorName=_selectedItem;
+return '[#]CurrentColors';</postscript>
+        </button>
+        <button name="MessageText" type="text" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="32" text="">
+          <code />
+          <properties>
+          </properties>
+          <prescript>ReturnKeyType[~~]send</prescript>
+          <postscript>return '[#]SendMessage';</postscript>
+        </button>
+        <button name="ClockPad" type="gp" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="33" text="">
+          <code>3:script:Scoreboard^ClockReset|7:script:Scoreboard^ClockToggle</code>
+        </button>
+        <button name="ClockLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="34" text="">
+          <code />
+        </button>
+        <button name="Refresh" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="35" text="Refresh spectators">
+          <code />
+          <script>return '[#]CurrentScore[#]CurrentSet[#]CurrentColors[#]CurrentTeams[#]CurrentClock[#]UpdateConnectedPeers';</script>
+        </button>
+        <button name="ButtonBackground" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="36" text="">
+          <code />
+        </button>
+        <button name="GoBack" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="37" text="Exit">
+          <code />
+          <script>_local.feedback='back';
+return '[#]ScoreSender[#]Back';</script>
+        </button>
+        <button name="ThrowSwap" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="39" text="Swap sides">
+          <code />
+          <script>if ((_iOSDevice=='iPad') &amp;&amp; (_orientation=='portrait')) {
+  alert('Please rotate to landscape\nto swap sides.');
+  return;
+}
+_local.feedback='swap';
+return '[#]UpdateSender[#]ScoreSender';</script>
+        </button>
+        <button name="Reset" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="40" text="Reset score">
+          <code />
+          <script>_local.homeScore=0;
+_local.visitScore=0;
+return '[#]Refresh';</script>
+        </button>
+        <button name="SendMessage" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="42" text="Send a message">
+          <code />
+          <script>if (_getEnabled('MessageText') &amp;&amp; _getText('MessageText').length &gt; 0) {
+  _local.feedback='alert:'+_getText('MessageText');
+  _setText('MessageText','');
+  if(_iOSDevice=='iPhone'){
+    _animateRotation('SendMessage',90);
+  }
+  _setEnabled('MessageText',false);
+  return '[#]ScoreSender[#]HideKeyboard';
+} else if (_getEnabled('MessageText')) {
+  _setEnabled('MessageText',false);
+  if(_iOSDevice=='iPhone'){
+    _animateRotation('SendMessage',90);
+  }
+  return '[#]HideKeyboard';
+} else {
+  _setEnabled('MessageText',!_getEnabled('MessageText'));
+  if(_iOSDevice=='iPhone'){
+    _animateRotation('SendMessage',0);
+  }
+}</script>
+        </button>
+        <button name="SetPad" type="gp" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="44" text="">
+          <code>1:script:Scoreboard^Set+|2:script:Scoreboard^Set-|7:script:Scoreboard^Set+</code>
+        </button>
+        <button name="SetLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="45" text="">
+          <code />
+        </button>
+        <button name="SetVisitColor" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="46" text="Visitor">
+          <code />
+          <script>_setEnabled('VisitTeam',!_getEnabled('VisitTeam'));
+_setEnabled('VisitColor',!_getEnabled('VisitColor'));
+_setSelectedItem('VisitColor',_local.visitColorName);
+_setEnabled('VisitTextColor',!_getEnabled('VisitTextColor'));
+_setSelectedItem('VisitTextColor',_local.visitTextColorName);
+_local.visitTeam=_getText('VisitTeam');
+return '[#]CurrentTeams';</script>
+        </button>
+        <button name="VisitTextLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="47" text="">
+          <code>Visitor</code>
+        </button>
+        <button name="SetHomeColor" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="48" text="Home">
+          <code />
+          <script>_setEnabled('HomeTeam',!_getEnabled('HomeTeam'));
+_setEnabled('HomeColor',!_getEnabled('HomeColor'));
+_setSelectedItem('HomeColor',_local.homeColorName);
+_setEnabled('HomeTextColor',!_getEnabled('HomeTextColor'));
+_setSelectedItem('HomeTextColor',_local.homeTextColorName);
+_local.homeTeam=_getText('HomeTeam');
+return '[#]CurrentTeams';</script>
+        </button>
+        <button name="HomeTextLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="49" text="">
+          <code>Home</code>
+        </button>
+        <button name="HomeTeam" type="text" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="50" text="Home">
+          <code />
+          <properties>ReturnKeyType[~~]Done</properties>
+        </button>
+        <button name="VisitTeam" type="text" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="51" text="Visitor">
+          <code />
+          <properties>ReturnKeyType[~~]Done</properties>
+        </button>
+        <button name="TapToSetLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="52" text="">
+          <code>Tap to set</code>
+        </button>
+        <button name="ConnectedPeers" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="55" text="">
+          <code />
+        </button>
+        <button name="HomePad" type="gp" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="56" text=" ">
+          <code>1:script:Scoreboard^HomeScore+|2:script:Scoreboard^HomeScore-|7:script:Scoreboard^HomeScore+</code>
+        </button>
+        <button name="HomeLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="57" text="">
+          <code />
+        </button>
+        <button name="VisitPad" type="gp" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="58" text=" ">
+          <code>1:script:Scoreboard^VisitScore+|2:script:Scoreboard^VisitScore-|7:script:Scoreboard^VisitScore+</code>
+        </button>
+        <button name="VisitLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Scoreboard^MainGroup" template="0" index="59" text="">
+          <code />
+        </button>
+        <button name="SwapPhone" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>if (_getTop('HomeLabel')==0) {
+  _animateTop('HomePad',286);
+  _animateTop('HomeLabel',286);
+  _animateTop('SetHomeColor',316);
+  _animateTop('HomeTextLabel',316);
+  _animateTop('HomeColor',286);
+  _animateTop('HomeTextColor',427);
+  _animateTop('HomeTeam',332);
+
+  _animateTop('VisitPad',0);
+  _animateTop('VisitLabel',0);
+  _animateTop('SetVisitColor',30);
+  _animateTop('VisitTextLabel',30);
+  _animateTop('VisitColor',0);
+  _animateTop('VisitTextColor',141);
+  _animateTop('VisitTeam',210);
+} else {
+  _animateTop('HomePad',0);
+  _animateTop('HomeLabel',0);
+  _animateTop('SetHomeColor',30);
+  _animateTop('HomeTextLabel',30);
+  _animateTop('HomeColor',0);
+  _animateTop('HomeTextColor',141);
+  _animateTop('HomeTeam',210);
+
+  _animateTop('VisitPad',286);
+  _animateTop('VisitLabel',286);
+  _animateTop('SetVisitColor',316);
+  _animateTop('VisitTextLabel',316);
+  _animateTop('VisitColor',286);
+  _animateTop('VisitTextColor',427);
+  _animateTop('VisitTeam',332);
+}</script>
+        </button>
+        <button name="HomeScore+" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>_local.homeScore++;
+return '[#]CurrentScore';</script>
+        </button>
+        <button name="HomeScore-" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>if (_local.homeScore&gt;0) {
+  _local.homeScore--;
+}
+return '[#]CurrentScore';</script>
+        </button>
+        <button name="VisitScore-" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>if (_local.visitScore&gt;0) {
+  _local.visitScore--;
+}
+return '[#]CurrentScore';</script>
+        </button>
+        <button name="VisitScore+" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>_local.visitScore++;
+return '[#]CurrentScore';</script>
+        </button>
+        <button name="Set+" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="" remotePort="" text="" touchTip="">
+          <code />
+          <script>_local.currentSet++;
+return '[#]CurrentSet';</script>
+        </button>
+        <button name="Set-" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>if(_local.currentSet&gt;1){
+  _local.currentSet--;
+}
+return '[#]CurrentSet';</script>
+        </button>
+        <button name="ClockReset" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>_setTextColor('ClockLabel','#808080');
+_local.minutes=0;
+_local.seconds=0;
+_setText('ClockLabel','00:00');
+_local.clock=false;
+return '[#]{&lt;}Clock[#]CurrentClock';</script>
+        </button>
+      </buttons>
+    </device>
+    <device name="Chat">
+      <buttons>
+        <button name="MainGroup" type="group" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="0" text="">
+          <code />
+        </button>
+        <button name="GoFullScreen" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="1" text="Go Full Screen">
+          <code>{fullscreen:on}</code>
+          <prescript />
+          <postscript />
+        </button>
+        <button name="ToggleLock" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="2" text="Auto Lock:">
+          <code />
+          <script>if (!_global.chatLockTimeout) {
+  var answer=confirm("Would you like to enable activity lock?  This will auto-lock the activity after three minutes of inactivity.");
+  _global.chatLockTimeout=answer;
+  if (answer) {
+    while (_global.chatLockCode.length==0){
+      _global.chatLockCode=prompt('Please enter a 4-digit numeric passcode:');
+      if (_global.chatLockCode==null){
+        _global.chatLockTimeout=false;
+        break;
+      }
+      if (!(/^\d+$/.test(_global.chatLockCode)) || (_global.chatLockCode.length&gt;4)){
+        _global.chatLockCode='';
+        alert('Please enter four numbers.');
+      }
+    }
+    if (_global.chatLockTimeout) {
+      _text='Auto Lock: ON';
+      return '[#]{&gt;}LockTimer';
+    }
+  }
+} else {
+  _global.chatLockCode='';
+  _global.chatLockTimeout=false;
+  _text='Auto Lock: OFF';
+  return '[#]{&lt;}LockTimer';
+}</script>
+        </button>
+        <button name="Init" type="et" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="ChatClient" remotePort="" touchTip="" group="Chat^MainGroup" template="0" index="3" text="">
+          <code>%chatText%\//</code>
+          <script>
+          </script>
+          <prescript>_setAlpha('MainGroup',0);
+if (_global.chatLockTimeout == undefined) {
+  _global.chatLockTimeout = false;
+  _global.chatLockCode='';
+}
+if (_global.chatLockTimeout) {
+  _setText('ToggleLock','Auto Lock: ON');
+} else {
+  _setText('ToggleLock','Auto Lock: OFF');
+}
+_local.chatText='';
+_local.messageOrder='bottom';
+_setText('ChatWindow','');
+_setDisabled('ChatWindow',true);
+_setBackgroundColor('ChatSender','#303030');
+_setBackgroundColor('ClearChat','#303030');
+_setBackgroundColor('Back','#303030');
+_setBackgroundColor('Keyboard','#303030');
+_setBackgroundColor('ToggleSpellCheck','#303030');
+_setBackgroundColor('ToggleMessageOrder','#303030');
+_setBackgroundColor('ToggleLock','#303030');
+_setBackgroundColor('NoThanks','#303030');
+
+if (!_fullScreen) {
+  return '[#]GoFullScreen';
+}
+_setEnabled('MainGroup',true);
+_local.chatText=_deviceName+' has entered the conversation';
+if (_global.chatLockTimeout) {
+  return '[#]{&gt;}LockTimer[#]Keyboard[#]AlphaInit';
+} else {
+  return '[#]Keyboard[#]AlphaInit';
+}</prescript>
+          <postscript>
+          </postscript>
+        </button>
+        <button name="ChatListener" type="listen" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="ChatServer" remotePort="" touchTip="" group="Chat^MainGroup" template="0" index="4" text="">
+          <code />
+          <script>if (_feedback.indexOf(_deviceName)==0) {
+  _setBackgroundColor('ChatWindow','White');
+} else {
+  _setBackgroundColor('ChatWindow','Yellow');
+}
+if (_local.messageOrder == 'top') {
+  _prependLine('ChatWindow',_feedback+'\n');
+} else {
+  _appendLine('ChatWindow',_feedback);
+  _appendLine('ChatWindow');
+}
+if (_global.chatLockTimeout) {
+  return '[#]{&gt;&gt;}LockTimer';
+}
+_local.chatText='';</script>
+        </button>
+        <button name="WiFiLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="5" text="">
+          <code>Requires WiFi</code>
+        </button>
+        <button name="HideKeyboard" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="6" text="Hide\nKeyboard">
+          <code>{keyboard hide}</code>
+          <script />
+        </button>
+        <button name="ShowKeyboard" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="7" text="Show\nKeyboard">
+          <code>{keyboard show:ChatText}</code>
+          <script />
+        </button>
+        <button name="LockScreenPad" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="Default iPad^Unlock" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="8" text="">
+          <code>
+          </code>
+        </button>
+        <button name="LockTimer" type="script#" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="180.00" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="9" text="">
+          <code />
+          <script>if (_local.timerFirstRun==undefined){
+  _local.timerFirstRun=true;
+}else{
+  if(_iOSDevice=='iPad'){
+    return '[#]LockScreenPad';
+  }else{
+    return '[#]LockScreenPhone';
+  }
+}</script>
+        </button>
+        <button name="AlphaInit" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="10" text="">
+          <code />
+          <script>_animateAlpha('MainGroup',1);</script>
+        </button>
+        <button name="ExitChat" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="11">
+          <code />
+        </button>
+        <button name="Back" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="[go back]" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="12" text="Exit">
+          <code />
+        </button>
+        <button name="ToggleSpellCheck" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="13" text="Spell Check:\nOFF">
+          <code />
+          <script>if ((_getProperty('ChatText','SpellCheck')!=undefined) &amp;&amp; ((_getProperty('ChatText','SpellCheck').toLowerCase()=='on') || (_getProperty('ChatText','SpellCheck').toLowerCase()=='yes'))) {
+  _setProperty('ChatText','SpellCheck','Off');
+  _text='Spell Check:\nOFF';
+} else {
+  _setProperty('ChatText','SpellCheck','On');
+  _text='Spell Check:\nON';
+}
+_setText('Keyboard','Hide\nKeyboard');
+if (_global.chatLockTimeout) {
+  return '[#]{&gt;&gt;}LockTimer';
+}</script>
+        </button>
+        <button name="ToggleMessageOrder" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="14" text="New Messages:\nBOTTOM">
+          <code />
+          <script>if (_local.messageOrder=='top') {
+  _local.messageOrder='bottom';
+  _text='New Messages:\nBOTTOM';
+} else {
+  _local.messageOrder='top';
+  _text='New Messages:\nTOP';
+}
+if (_global.chatLockTimeout) {
+  return '[#]{&gt;&gt;}LockTimer';
+}</script>
+        </button>
+        <button name="Keyboard" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="15" text="Keyboard">
+          <code />
+          <script>if (_fullScreen) {
+  if (!_keyboardShowing) {
+    if (_global.chatLockTimeout) {
+      return '[#]ShowKeyboard[#]{&gt;&gt;}LockTimer';
+    }else{
+      return '[#]ShowKeyboard';
+    }
+  } else {
+    if (_global.chatLockTimeout) {
+      return '[#]HideKeyboard[#]{&gt;&gt;}LockTimer';
+    }else{
+      return '[#]HideKeyboard';
+    }
+  }
+}</script>
+        </button>
+        <button name="ClearChat" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="16" text="Clear">
+          <code />
+          <script>_setText('ChatWindow','');
+if (_global.chatLockTimeout) {
+  return '[#]{&gt;&gt;}LockTimer';
+}</script>
+        </button>
+        <button name="ChatSender" type="et" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="ChatClient" remotePort="" touchTip="" group="Chat^MainGroup" template="0" index="17" text="Send">
+          <code>%chatText%\//</code>
+          <script />
+          <prescript>if (_getText('ChatText').length == 0) return '[*]';
+_local.chatText = _deviceName+' »\n'+_getText('ChatText');</prescript>
+          <postscript>_setText('ChatText','');
+if (_global.chatLockTimeout) {
+  return '[#]{&gt;&gt;}LockTimer';
+}</postscript>
+        </button>
+        <button name="ChatText" type="text" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="18" text="">
+          <code />
+          <properties>
+          </properties>
+          <prescript>ReturnKeyType[~~]send</prescript>
+          <postscript>return '[#]ChatSender';</postscript>
+        </button>
+        <button name="ChatWindow" type="text" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Chat^MainGroup" template="0" index="19" text="">
+          <code />
+        </button>
+        <button name="LockScreenPhone" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="Default iPhone^Unlock" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code>
+          </code>
+        </button>
+      </buttons>
+    </device>
+    <device name="Unlock">
+      <buttons>
+        <button name="GoFullScreen" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="0" text="Go Full Screen">
+          <code>{fullscreen:on}</code>
+          <prescript />
+          <postscript />
+        </button>
+        <button name="UnlockThenBack" type="mac" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="0" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="1" text="">
+          <code>[{macrostart}{. (7)}|{UnlockScreen [Unlock]}|{Back [Unlock]}{macroend}]</code>
+        </button>
+        <button name="FadeThenClear" type="mac" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="0" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="2" text="">
+          <code>[{macrostart}{Fade [Unlock]}|{. (5)}|{Clear [Unlock]}{macroend}]</code>
+        </button>
+        <button name="PassLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="3" text="">
+          <code />
+        </button>
+        <button name="LockScreen" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="4" text="">
+          <code>{screen lock:on}</code>
+          <prescript />
+        </button>
+        <button name="Back" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="[go back]" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="5" text="">
+          <code />
+        </button>
+        <button name="UnlockScreen" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="6" text="">
+          <code>{screen lock:off}</code>
+        </button>
+        <button name="OnLoad" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="7" text="">
+          <code />
+          <script>_local.checkPass = function() {
+  if (_local.passOut.length &gt; _local.myPass.length) {
+    _local.passOut = _local.passOut.substr(0,_local.passOut.length-1);
+  }
+  _setText('PassLabel', Array(_local.passOut.length+1).join('●  '));
+  if (_local.passOut.length == _local.myPass.length) {
+    if (_local.passOut == _local.myPass) {
+      _setText('PassLabel', Array(_local.passOut.length+1).join('✔︎  '));
+      _setTextColor('PassLabel','Green');
+      return '[#]UnlockThenBack';
+    } else {
+      _setTextColor('PassLabel','Red');
+      _setText('PassLabel', Array(_local.passOut.length+1).join('✘  '));
+      if (_local.shouldVibrate) {
+        _vibrate();
+        _local.shouldVibrate = false;
+        return '[#]FadeThenClear';
+      }
+    }
+  } else {
+    _setTextColor('PassLabel','White');
+    _setAlpha('PassLabel',1);
+    _local.shouldVibrate = true;
+    if (_local.passOut.length == 1) {
+      _animateAlpha('PassBackdrop',.3);
+    } else if (_local.passOut.length == 0) {
+      _animateAlpha('PassBackdrop',0);
+    }
+  }
+}
+
+if (_global.chatLockCode == undefined) {
+  alert('No lock code found.  Exiting.');
+  return '[#]Back';
+}
+
+//////////////////////////////////////////////////
+// Update this variable with your desired passcode
+_local.myPass =_global.chatLockCode;
+//////////////////////////////////////////////////
+
+_local.passOut = '';
+_local.shouldVibrate = false;
+_setAlpha('PassBackdrop',0);
+_setEnabled('PassBackdrop',true);
+if (!_fullScreen){
+  return '[#]GoFullScreen';
+}else{
+  return '[#]LockScreen';
+}</script>
+        </button>
+        <button name="UnlockLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="8" text="">
+          <code>Enter passcode to unlock</code>
+        </button>
+        <button name="Keypad" type="group" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="9" text="">
+          <code />
+        </button>
+        <button name="1" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="10" text="">
+          <code />
+          <script>_local.passOut += '1';
+return _local.checkPass();</script>
+        </button>
+        <button name="2" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="11" text="">
+          <code />
+          <script>_local.passOut += '2';
+return _local.checkPass();</script>
+        </button>
+        <button name="3" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="12" text="">
+          <code />
+          <script>_local.passOut += '3';
+return _local.checkPass();</script>
+        </button>
+        <button name="6" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="13" text="">
+          <code />
+          <script>_local.passOut += '6';
+return _local.checkPass();</script>
+        </button>
+        <button name="5" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="14" text="">
+          <code />
+          <script>_local.passOut += '5';
+return _local.checkPass();</script>
+        </button>
+        <button name="4" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="15" text="">
+          <code />
+          <script>_local.passOut += '4';
+return _local.checkPass();</script>
+        </button>
+        <button name="7" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="16" text="">
+          <code />
+          <script>_local.passOut += '7';
+return _local.checkPass();</script>
+        </button>
+        <button name="8" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="17" text="">
+          <code />
+          <script>_local.passOut += '8';
+return _local.checkPass();</script>
+        </button>
+        <button name="9" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="18" text="">
+          <code />
+          <script>_local.passOut += '9';
+return _local.checkPass();</script>
+        </button>
+        <button name="Delete" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="19" text="">
+          <code />
+          <script>if (_local.passOut.length &gt; 0) {
+  _local.passOut = _local.passOut.substr(0,   _local.passOut.length-1);
+  _local.checkPass();
+}</script>
+        </button>
+        <button name="0" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="20" text="">
+          <code />
+          <script>_local.passOut += '0';
+return _local.checkPass();</script>
+        </button>
+        <button name="Clear" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="Unlock^Keypad" template="0" index="21" text="">
+          <code />
+          <script>_local.passOut = '';
+_local.checkPass();</script>
+        </button>
+        <button name="PassBackdrop" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="22" text="">
+          <code />
+        </button>
+        <button name="HintLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" text="">
+          <code>Hint: 1234</code>
+        </button>
+      </buttons>
+    </device>
+    <device name="DirecTVRemote">
+      <buttons>
+        <button name="Page2" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="Page1" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="ScrollLeft" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>_animateLeft('MainGroup', 0);
+_setImage('Page1', 'DirecTVRemote/round_white_10px.png');
+_setImage('Page2', 'DirecTVRemote/round_black_10px.png');</script>
+        </button>
+        <button name="ScrollRight" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>_animateLeft('MainGroup', -(_screenWidth/_zoomScale));
+_setImage('Page1', 'DirecTVRemote/round_black_10px.png');
+_setImage('Page2', 'DirecTVRemote/round_white_10px.png');</script>
+        </button>
+        <button name="PagerBackground" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="OnOffGroup" type="group" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="moveVert~" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="8" text="">
+          <code />
+          <script />
+          <prescript>_local.startOnOffGroupY = _groupY;</prescript>
+          <postscript>var offset1 = 0;
+var offset2 = 0;
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPad') {
+	offset1 = ((_getTop('Start') - _getHeight('ButtonBackgroundWhite')) + 16);
+	offset2 = ((_getTop('HostSpinner') - _getHeight('ButtonBackgroundWhite')) - 5);
+} else {
+	offset1 = (_getTop('Menu') * _local.offsetAdjust);
+	offset2 = ((_getTop('Power ON') * _local.offsetAdjust) - 5);
+}
+
+if (_moveDirection == 'none') {
+	if (_groupY &lt; -offset2) {
+		_animateTop('OnOffGroup', -offset2);
+	} else if (_groupY &gt; -offset1) {
+		_animateTop('OnOffGroup', -offset1);
+	}
+	return;
+}
+
+if (_groupY &gt; -offset2) {
+	_animateTop('OnOffGroup', -offset2);
+} else if (_groupY &lt; -offset1) {
+	_animateTop('OnOffGroup', -offset1);
+} else if (_groupY &lt; _local.startOnOffGroupY) {
+	_animateTop('OnOffGroup', -offset1);
+} else if (_groupY &gt; _local.startOnOffGroupY) {
+	_animateTop('OnOffGroup', -offset2);
+}</postscript>
+        </button>
+        <button name="DownLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="17" text="">
+          <code />
+        </button>
+        <button name="Guide" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="31" text="GUIDE">
+          <code>/remote/processKey[?]key=guide&amp;hold=keyPress</code>
+        </button>
+        <button name="Menu" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="26" text="MENU">
+          <code>/remote/processKey[?]key=menu&amp;hold=keyPress</code>
+          <script />
+        </button>
+        <button name="List" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="25" text="PLAYLIST">
+          <code>/remote/processKey[?]key=list&amp;hold=keyPress</code>
+        </button>
+        <button name="Power ON" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="10" text="POWER ON">
+          <code>/remote/processKey[?]key=poweron&amp;hold=keyPress</code>
+        </button>
+        <button name="Power OFF" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="13" text="POWER OFF">
+          <code>/remote/processKey[?]key=poweroff&amp;hold=keyPress</code>
+        </button>
+        <button name="SpinHider" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="HostSpinner" type="spin" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="freeText" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="11" text="">
+          <code>:NO</code>
+          <properties>DirecTVRemoteType[~~]iPad</properties>
+          <postscript>if (_selectedItem != "Searching...") {
+	for (var receiver in _local.receiverList) {
+		if (receiver == _selectedItem) {
+			_local.directvremote = _local.receiverList[receiver];
+			break;
+		}
+	}
+	if (_fullScreen) {
+		_setText('CurrentReceiver', _selectedItem);
+	}
+	_setText('CurrentIP', _local.receiverList[_selectedItem]);
+	if (_state == undefined) {
+		_global.currentSelectedHost = _selectedItem;
+	} else {
+		_state.currentSelectedHost = _selectedItem;
+	}
+	_setActivityTitle(_selectedItem);
+}
+
+return '[#]HideSpinner';</postscript>
+        </button>
+        <button name="CurrentReceiver" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="FoundReceivers" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="9" text="">
+          <code>Looking for receivers...</code>
+        </button>
+        <button name="MainGroup" type="group" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <postscript>if ((_groupX*_zoomScale) &lt; -(_screenWidth*_zoomScale)) {
+	_animateLeft('MainGroup', -(_screenWidth/_zoomScale));
+	_setImage('Page1', 'DirecTVRemote/round_black_10px.png');
+	_setImage('Page2', 'DirecTVRemote/round_white_10px.png');
+} else if ((_groupX*_zoomScale) &gt; 0) {
+	_animateLeft('MainGroup', 0);
+	_setImage('Page1', 'DirecTVRemote/round_white_10px.png');
+	_setImage('Page2', 'DirecTVRemote/round_black_10px.png');
+} else if ((_groupX*_zoomScale) &lt; (_local.startGroupX - _local.moveTolerance)) {
+	_animateLeft('MainGroup', -(_screenWidth/_zoomScale));
+	_setImage('Page1', 'DirecTVRemote/round_black_10px.png');
+	_setImage('Page2', 'DirecTVRemote/round_white_10px.png');
+} else if ((_groupX*_zoomScale) &gt; (_local.startGroupX + _local.moveTolerance)) {
+	_animateLeft('MainGroup', 0);
+	_setImage('Page1', 'DirecTVRemote/round_white_10px.png');
+	_setImage('Page2', 'DirecTVRemote/round_black_10px.png');
+} else {
+	_animateLeft('MainGroup', _local.startGroupX/_zoomScale);
+}</postscript>
+          <prescript>_local.startGroupX = (_groupX*_zoomScale);</prescript>
+          <script />
+        </button>
+        <button name="Leave" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="[go back]" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="StartNotifyListener" type="script!" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="10" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="46" text="">
+          <code />
+          <script>_setEnabled('DirecTVNOTIFYListener', true);</script>
+        </button>
+        <button name="DirecTVNOTIFYListener" type="listen" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_NOTIFY" remotePort="" touchTip="" template="0" index="54" text="">
+          <code />
+          <script>return _local.processFeedback(_feedback);</script>
+        </button>
+        <button name="OnExit" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="47" text="">
+          <code />
+          <script>//this hides the main group if it is scrolled left on exit
+_setEnabled('MainGroup', false);</script>
+        </button>
+        <button name="HideKeyboard" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="48" text="#123">
+          <code>{keyboard hide}</code>
+        </button>
+        <button name="HideSpinner" type="script!" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="49" text="">
+          <code />
+          <script>var offset = 0;
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPad') {
+	offset = ((_getTop('Start') - _getHeight('ButtonBackgroundWhite')) + 16);
+} else {
+	offset = _getTop('Menu') * _local.offsetAdjust;
+}
+_animateTop('OnOffGroup', -offset);
+
+_setDisabled('MainGroup', false);
+_setDisabled('OnOffGroup', false);
+_setEnabled('CurrentIP', true);</script>
+        </button>
+        <button name="AnimateSpinner" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="50" text="">
+          <code />
+          <script>var currentHost = '';
+
+if (_state == undefined) {
+	currentHost = _global.currentSelectedHost;
+} else {
+	currentHost = _getState('currentSelectedHost');
+}
+
+if (currentHost != '') {
+	_setSelectedItem('HostSpinner', currentHost);
+	if (_fullScreen) {
+		_setText('CurrentReceiver', currentHost);
+	}
+	_setText('CurrentIP', _local.receiverList[currentHost]);
+	_local.directvremote = _local.receiverList[currentHost];
+} else {
+	if (_getItems('HostSpinner')[0] != "Searching...") {
+		_setSelectedIndex('HostSpinner', 0);
+		if (_fullScreen) {
+			_setText('CurrentReceiver', _getItems('HostSpinner')[0]);
+		}
+		_setText('CurrentIP', _local.receiverList[_getItems('HostSpinner')[0]]);
+		_local.directvremote = _local.receiverList[_getItems('HostSpinner')[0]];
+	}
+}
+
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPhone') {
+	_animateLeft('MainGroup', 0);
+}
+
+return '[#]HideSpinner';</script>
+        </button>
+        <button name="M-SEARCH" type="et#" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="600" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_SSDPSEARCH" remotePort="" touchTip="" template="0" index="52" text="">
+          <code>M-SEARCH * HTTP/1.1\r
+HOST: 239.255.255.250:1900\r
+MAN: "ssdp:discover"\r
+MX: 3\r
+ST: urn:schemas-upnp-org:device:MediaRenderer:1\r
+\r\n\//</code>
+          <script />
+          <prescript />
+        </button>
+        <button name="OnLoad" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="51" text="">
+          <code />
+          <script>_setDisabled('MainGroup', true);
+_setDisabled('OnOffGroup', true);
+_setEnabled('CurrentIP', false);
+
+if ((_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPhone') &amp;&amp; !_fullScreen) {
+	return '[#]GoFullScreen';
+}
+
+_setActivityTitle('DirecTV Remote');
+
+_local.directvdynamic='';
+_local.directvremote='';
+_local.directvReceiversFound=0;
+_local.receiverList = {};
+_local.moveTolerance = 80*_zoomScale;
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPad') {
+	_local.offsetAdjust = 1;
+	_setText('ChannelBackground', 'CH');
+} else {
+	_local.offsetAdjust = _screenHeight/(568*_zoomScale);
+	_setText('ChannelBackground', 'CHANNEL');
+}
+
+var onOffTopExtent = 0;
+var onOffBottomExtent = 0;
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPad') {
+	onOffTopExtent = (_getTop('Start') * _local.offsetAdjust) - _getHeight('ButtonBackgroundWhite') + 16;
+	onOffBottomExtent = _getHeight('ButtonBackgroundWhite') - (_getTop('HostSpinner') * _local.offsetAdjust) + 5;
+} else {
+	onOffTopExtent = _getTop('Menu') * _local.offsetAdjust;
+	onOffBottomExtent = -30;
+}
+_setProperty('OnOffGroup', 'TouchMotionYExtents', -onOffTopExtent + ',' + onOffBottomExtent);
+
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPhone') {
+	_setProperty('MainGroup', 'TouchMotionXExtents', -_screenWidth/_zoomScale + ',0');
+}
+
+var currentSelectedHost = '';
+var receiverList = '';
+
+if (_state == undefined) {
+	if (_global.currentSelectedHost == undefined) {
+		_global.currentSelectedHost='';
+	}
+	if (_global.receiverList == undefined) {
+		_global.receiverList = '';
+	}
+	currentSelectedHost = _global.currentSelectedHost;
+	receiverList = _global.receiverList;
+} else {
+	if (_state.currentSelectedHost == undefined) {
+		_state.currentSelectedHost = '';
+	}
+	if (_state.receiverList == undefined) {
+		_state.receiverList = '';
+	}
+	currentSelectedHost = _getState('currentSelectedHost');
+	receiverList = _getState('receiverList');
+}
+
+if (currentSelectedHost != '') {
+	_setActivityTitle(currentSelectedHost);
+}
+if (receiverList == '') {
+	var newItems = ['Searching...'];
+	_setItems('HostSpinner', newItems);
+}
+if (receiverList.length &gt; 0) {
+	var receiverListItems = (receiverList).split('^');
+	var newItems = [];
+	for (item in receiverListItems) {
+		var keyVal = receiverListItems[item].split('#');
+		_local.receiverList[keyVal[0]] = keyVal[1];
+		if (newItems.indexOf(keyVal[0]) &lt; 0) {
+			newItems.push(keyVal[0]);
+		}
+	}
+	_setItems('HostSpinner', newItems);
+	if (newItems.length &gt; 1) {
+		_setSelectedIndex('HostSpinner', newItems.length - 1);
+	}
+	_setText('FoundReceivers', 'Found ' + newItems.length + ' receivers');
+}
+
+_local.tcOrientationChange = function(){
+	if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPhone') {
+		_setProperty('MainGroup', 'TouchMotionXExtents', -_screenWidth/_zoomScale + ',0');
+	}
+};
+
+_local.processFeedback = function(feedback) {
+	if (feedback.indexOf('DIRECTV') &gt; 0) {
+		var location = '';
+		var pieces = feedback.split('\r\n');
+		for (i=0; i&lt;pieces.length; i++) {
+			if (pieces[i].toLowerCase().indexOf('location:') &gt;= 0) {
+				location = pieces[i].replace(/location:/ig, '').replace(/ /g, '');
+				var address = location.split('//')[1].split('/')[0];
+				_setProperty('DirecTVDescription', 'HTTPHeaders', 'TC-LocationAddress=' + address.split(':')[0]);
+				_setProperty('DirecTVDescription', 'address', address);
+				return '[#]DirecTVDescription';
+			}
+		}
+	}
+}
+
+if (_getProperty('HostSpinner', 'DirecTVRemoteType') ==  'iPhone') {
+	_animateLeft('MainGroup', -_local.moveTolerance);
+}
+
+return '[#]M-SEARCH[#]AnimateSpinner';
+//[#]StartNotifyListener</script>
+        </button>
+        <button name="DirecTVDescription" type="http&lt;" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Description" remotePort="GET" touchTip="" template="0" index="53" text="">
+          <code>0/description.xml</code>
+          <script>[notimeout][quiet]
+var responseHeaders = _property.HTTPResponseHeaders.split('^');
+var localAddress = '';
+for (var header in responseHeaders) {
+	if (responseHeaders[header].split('=')[0] == 'TC-LocationAddress') {
+		localAddress = responseHeaders[header].split('=')[1];
+		break;
+	}
+}
+if (localAddress == '') {
+	return;
+}
+var xmlDoc=_xmlParser.parseFromString(_feedback,'text/xml');
+var hmcNode = xmlDoc.getElementsByTagName('directv-hmc')[0];
+var receiverName = '';
+if (hmcNode != null) {
+	receiverName = hmcNode.childNodes[0].nodeValue;
+}
+if ((receiverName != '') &amp;&amp; (receiverName != '(null)')) {
+	_local.receiverList[receiverName] = localAddress;
+	var items = _getItems('HostSpinner');
+	if (items[0] == "Searching...") {
+		items = [];
+		_local.directvReceiversFound = 0;
+		_local.directvremote = localAddress;
+		if (_fullScreen) {
+			_setText('CurrentReceiver', receiverName);
+		}
+		_setText('CurrentIP', localAddress);
+		_setActivityTitle(receiverName);
+	}
+	if (items.indexOf(receiverName) &lt; 0) {
+		items.push(receiverName);
+		_local.directvReceiversFound++;
+		_vibrate(1);
+		_setItems('HostSpinner', items);
+		_setText('FoundReceivers', 'Found ' + _local.directvReceiversFound + ' receivers');
+	}
+	if (_getSelectedItem('HostSpinner') == receiverName) {
+		_local.directvremote = _local.receiverList[receiverName];
+		_setText('CurrentIP', _local.receiverList[receiverName])
+	}
+	var receiverList = '';
+	for (var name in _local.receiverList) {
+		if (name != '(null)') {
+			receiverList += '^' + name + '#' + _local.receiverList[name];
+		}
+	}
+	if (_state == undefined) {
+		_global.receiverList = receiverList.substr(1);
+	} else {
+		_state.receiverList = receiverList.substr(1);
+	}
+}</script>
+          <prescript>_local.directvdynamic = _property.address;</prescript>
+        </button>
+        <button name="DirecTVSSDPListener" type="listen" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_SSDP" remotePort="" touchTip="" template="0" index="55" text="">
+          <code />
+          <script>return _local.processFeedback(_feedback);</script>
+        </button>
+        <button name="Pause" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="5" text="">
+          <code>/remote/processKey[?]key=pause&amp;hold=keyPress</code>
+        </button>
+        <button name="Advance" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="6" text="\n\n\n30 SEC">
+          <code>/remote/processKey[?]key=advance&amp;hold=keyPress</code>
+        </button>
+        <button name="Select" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="56" text="SELECT">
+          <code>/remote/processKey[?]key=select&amp;hold=keyPress</code>
+          <postscript>return '[#]HideKeyboard';</postscript>
+        </button>
+        <button name="Movies" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" text="MOVIES">
+          <code>/tv/tune[?]major=1000&amp;minor=65535</code>
+        </button>
+        <button name="OnDemand" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="24" text="ON DEMAND">
+          <code>/tv/tune[?]major=1000&amp;minor=65535</code>
+        </button>
+        <button name="Cursor Up" type="http+" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.30" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="60" text="">
+          <code>/remote/processKey[?]key=up&amp;hold=keyPress</code>
+        </button>
+        <button name="Cursor Right" type="http+" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.30" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="57" text="">
+          <code>/remote/processKey[?]key=right&amp;hold=keyPress</code>
+        </button>
+        <button name="Cursor Left" type="http+" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.30" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="59" text="">
+          <code>/remote/processKey[?]key=left&amp;hold=keyPress</code>
+        </button>
+        <button name="Cursor Down" type="http+" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.30" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="58" text="">
+          <code>/remote/processKey[?]key=down&amp;hold=keyPress</code>
+        </button>
+        <button name="Record" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="14" text="R">
+          <code>/remote/processKey[?]key=record&amp;hold=keyPress</code>
+        </button>
+        <button name="Red" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="0" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="44" text="">
+          <code>/remote/processKey[?]key=red&amp;hold=keyPress</code>
+        </button>
+        <button name="Exit" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="21" text="EXIT">
+          <code>/remote/processKey[?]key=exit&amp;hold=keyPress</code>
+        </button>
+        <button name="Keyboard" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="#123" touchTip="">
+          <code>{keyboard show:Nums}</code>
+        </button>
+        <button name="Info" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="22" text="INFO">
+          <code>/remote/processKey[?]key=info&amp;hold=keyPress</code>
+        </button>
+        <button name="RW" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="2" text="">
+          <code>/remote/processKey[?]key=rew&amp;hold=keyPress</code>
+        </button>
+        <button name="Replay" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="0" text="\n\n\nREPLAY">
+          <code>/remote/processKey[?]key=replay&amp;hold=keyPress</code>
+        </button>
+        <button name="Play" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="3" text="">
+          <code>/remote/processKey[?]key=play&amp;hold=keyPress</code>
+        </button>
+        <button name="ReplayLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^MainGroup" template="0" index="46" text="">
+          <code>REPLAY</code>
+        </button>
+        <button name="FF" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="4" text="\n\n\nFF">
+          <code>/remote/processKey[?]key=ffwd&amp;hold=keyPress</code>
+        </button>
+        <button name="30SECLabel" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^MainGroup" template="0" index="48" text="">
+          <code>30 SEC</code>
+        </button>
+        <button name="ChUp" type="http+" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.30" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="64" text="Ch +">
+          <code>/remote/processKey[?]key=chanup&amp;hold=keyPress</code>
+        </button>
+        <button name="ChDown" type="http+" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.30" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="63" text="Ch -">
+          <code>/remote/processKey[?]key=chandown&amp;hold=keyPress</code>
+        </button>
+        <button name="ChannelBackground" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="65" text="">
+          <code />
+        </button>
+        <button name="Prev" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="66" text="PREVIOUS">
+          <code>/remote/processKey[?]key=prev&amp;hold=keyPress</code>
+        </button>
+        <button name="ButtonBackgroundWhite" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="7" text="">
+          <code />
+        </button>
+        <button name="Cursors" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="61" text="">
+          <code />
+        </button>
+        <button name="Nums" type="text" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+          <script>if ((_feedback != '.') &amp;&amp; (_feedback != '')) {
+	return '[#]' + _feedback;
+} else if (_feedback == '.') {
+	return '[#]-';
+} else if (_feedback == '') {
+	return '[#]Enter';
+}</script>
+          <properties>ProcessKeystrokes[~~]false</properties>
+          <prescript>KeyboardType[~~]decimalpad[~]ProcessKeystrokes[~~]false</prescript>
+          <postscript />
+        </button>
+        <button name="-" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="32" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=dash&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue;line-height:60%'&gt;&lt;center&gt;&lt;br/&gt;&lt;font size=2&gt;DASH&lt;/font&gt;&lt;br/&gt;&lt;font size=6&gt;&amp;#8211&lt;/font&gt;&lt;/center&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="Enter" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="33" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=enter&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue;line-height:70%'&gt;&lt;center&gt;&lt;br/&gt;&lt;font size=2&gt;ENTER&lt;/font&gt;&lt;/center&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="9" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="34" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=9&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;9&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;WXYZ&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="4" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="35" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=4&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;4&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;GHI&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="8" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="36" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=8&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;8&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;TUV&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="3" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="37" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=3&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;3&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;DEF&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="7" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="38" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=7&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;7&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;PQRS&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="2" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="39" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=2&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;2&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;ABC&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="6" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="40" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=6&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;6&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;MNO&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="1" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="41" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=1&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;1&lt;/font&gt;&lt;/strong&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="5" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="42" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=5&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;5&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;JKL&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="0" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" template="0" index="43" text="[&lt;html&gt;]">
+          <code>/remote/processKey[?]key=0&amp;hold=keyPress</code>
+          <htmlText>&lt;div style='font-family:HelveticaNeue'&gt;&lt;font size=2&gt;&amp;nbsp;&lt;/font&gt;&lt;strong&gt;&lt;font size=5&gt;0&lt;/font&gt;&lt;/strong&gt;&lt;font size=2&gt;&amp;nbsp;&lt;span style='position:relative;top:5px;left:-4px'&gt;┗━┛&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;</htmlText>
+        </button>
+        <button name="ButtonBackgroundBlack" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" index="67" text="">
+          <code />
+        </button>
+        <button name="CursorBackground" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="62" text="">
+          <code />
+        </button>
+        <button name="CurrentIP" type="label" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="-1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="12" text="">
+          <code />
+        </button>
+        <button name="CloseActivity" type="link" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="[go back]" repeat="1" interval="" rotation="" autoexec="" autoexit="" autoresume="" icon="" text="" touchTip="">
+          <code />
+        </button>
+        <button name="GoFullScreen" type="cmd" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" template="0" index="45" text="Go Full Screen">
+          <code>{fullscreen:on}</code>
+          <prescript />
+          <postscript />
+        </button>
+        <button name="Stop" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="1" text="">
+          <code>/remote/processKey[?]key=stop&amp;hold=keyPress</code>
+        </button>
+        <button name="End" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="15" text="\n\n\nEND">
+          <code>/remote/processKey[?]key=ffwd&amp;hold=keyDown</code>
+        </button>
+        <button name="FF3X" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="16" text="\n\n\nFF 3X">
+          <code />
+          <script>return '[#]FF[#]FF[#]FF';</script>
+        </button>
+        <button name="2.5Min" type="script" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="18" text="\n\n\n2.5 MIN">
+          <code />
+          <script>return '[#]Advance[#]Advance[#]Advance[#]Advance[#]Advance';</script>
+        </button>
+        <button name="Slow" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="19" text="\n\n\nSLOW">
+          <code>/remote/processKey[?]key=play&amp;hold=keyDown</code>
+        </button>
+        <button name="Start" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" group="DirecTVRemote^OnOffGroup" template="0" index="20" text="\n\n\nSTART">
+          <code>/remote/processKey[?]key=rew&amp;hold=keyDown</code>
+        </button>
+        <button name="Active" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="2" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="23" text="ACTIVE">
+          <code>/remote/processKey[?]key=active&amp;hold=keyPress</code>
+        </button>
+        <button name="Green" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="0" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="27" text="">
+          <code>/remote/processKey[?]key=green&amp;hold=keyPress</code>
+        </button>
+        <button name="Yellow" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="0" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="28" text="">
+          <code>/remote/processKey[?]key=yellow&amp;hold=keyPress</code>
+        </button>
+        <button name="Blue" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="0" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="29" text="">
+          <code>/remote/processKey[?]key=blue&amp;hold=keyPress</code>
+        </button>
+        <button name="Back" type="http" top="" left="" textPosition="" textSize="" textColor="" width="" height="" delay="" buttonPack="" buttonFile="" altButtonFile="" linkActivity="" repeat="1" interval="0.1" rotation="" autoexec="" autoexit="" autoresume="" icon="" remoteHost="DirecTVRemote_Buttons" remotePort="GET" touchTip="" index="30" text="BACK">
+          <code>/remote/processKey[?]key=back&amp;hold=keyPress</code>
+        </button>
+      </buttons>
+    </device>
+  </devices>
+  <ipservers>
+    <server type="multipeer" name="Scoreboard Sender" ip="tc-scoreboard" protocol="browse" proxy="false">
+      <bypass enabled="false" />
+    </server>
+    <server type="multipeer" name="Scoreboard Receiver" ip="tc-scoreboard" protocol="advertise" proxy="false">
+      <bypass enabled="false" />
+    </server>
+    <server type="fblistener" name="ChatServer" ip="0.0.0.0" multicast="" port="65535" port3g="0" protocol="UDP" default="true" />
+    <server type="event" name="ChatClient" ip="255.255.255.255" port="65535" port3g="0" protocol="UDP" default="" proxy="false">
+      <bypass enabled="false">
+      </bypass>
+    </server>
+    <server type="request" name="DirecTVRemote_Buttons" ip="%directvremote%" port="8080" port3g="8080" protocol="TCP" default="true" proxy="false">
+      <bypass enabled="false" />
+    </server>
+    <server type="fblistener" name="DirecTVRemote_NOTIFY" ip="0.0.0.0" multicast="239.255.255.250" port="1900" port3g="0" protocol="UDP" default="" />
+    <server type="event" name="DirecTVRemote_SSDPSEARCH" ip="239.255.255.250" port="1900" port3g="0" protocol="UDP" default="true" proxy="false">
+      <bypass enabled="false" />
+    </server>
+    <server type="request" name="DirecTVRemote_Description" ip="%directvdynamic%" port="8080" port3g="80" protocol="TCP" default="" proxy="false">
+      <bypass enabled="false" />
+    </server>
+    <server type="fblistener" name="DirecTVRemote_SSDP" ip="0.0.0.0" multicast="" port="0" port3g="0" protocol="UDP" default="" proxy="false">
+      <bypass enabled="false" />
+      <multicast />
+    </server>
+  </ipservers>
+  <properties>
+  </properties>
+  <javascript>
+  </javascript>
+  <templates>
+    <groups />
+  </templates>
+</touchControl>

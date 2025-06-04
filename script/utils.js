@@ -18,25 +18,18 @@ function convertToRange(value, srcRange, dstRange){
 
 }
 
-
 function cancelExecIfKodiDown() {
-    /*
   var proxy = _connectable('192.168.1.11',18080,3);
   var kodi = _connectable('192.168.1.12', 80,3);
-
-    log('Kodi down (' + proxy +':' +kodi +'): ' + result );
   if (!proxy || !kodi) {
     return '[*]';
   } else {
     return '';
   }
-  */
-   
 }
 
 
 function checkServiceConnection(host, port) {
-    /*
     var result = _connectable(host, port);
 
     log('Status on service(' + host +':' +port +'): ' + result );
@@ -54,5 +47,4 @@ function checkServiceConnection(host, port) {
         _setLeft('_macroMessage', 0);
         _global.showingError = false;
     }
-     */
 }
